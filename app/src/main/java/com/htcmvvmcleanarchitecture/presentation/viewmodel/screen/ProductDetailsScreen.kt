@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -31,6 +33,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.htcmvvmcleanarchitecture.presentation.viewmodel.ProductDetailsViewModel
 import com.htcmvvmcleanarchitecture.utils.Resource
+import com.htcmvvmcleanarchitecture.utils.shareProduct
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
@@ -41,6 +44,7 @@ fun ProductDetailsScreen(
     viewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
     val productState by viewModel.product.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.fetchProduct(productId)
@@ -86,29 +90,21 @@ fun ProductDetailsScreen(
                                 .fillMaxWidth()
                                 .height(200.dp)
                         )
-                        /* Spacer(modifier = Modifier.height(16.dp))
-                         Text(product.title, style = MaterialTheme.typography.titleLarge)
-                         Spacer(modifier = Modifier.height(8.dp))
-                         Text(product.description)
-                         Spacer(modifier = Modifier.height(8.dp))
-                         Text("Price: ₹${product.price}")*/
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        // Title
                         Text(
                             text = "Title: ${product.title}",
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
 
-                        // Description
                         Text(
                             text = "Description:",
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
-                        //Summary
+
                         Text(
                             text = product.summary,
                             style = MaterialTheme.typography.bodyLarge,
@@ -121,6 +117,14 @@ fun ProductDetailsScreen(
                         )
 
                         Spacer(modifier = Modifier.height(24.dp))
+
+
+                        IconButton(onClick = {
+                            val message = "${product.title} - ${product.price} from Hyderabad added to list"
+                            shareProduct(context, message)
+                        }) {
+                            Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
+                        }
                     }
                 }
             }

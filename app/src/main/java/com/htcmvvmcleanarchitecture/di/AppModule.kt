@@ -4,6 +4,7 @@ import com.htcmvvmcleanarchitecture.data.model.remote.ProductApi
 import com.htcmvvmcleanarchitecture.data.model.repository.ProductRepositoryImpl
 import com.htcmvvmcleanarchitecture.domain.model.repository.ProductRepository
 import com.htcmvvmcleanarchitecture.domain.model.usecase.GetProductDetailsUseCase
+import com.htcmvvmcleanarchitecture.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    private const val BASE_URL = "https://meijer-maui-test-default-rtdb.firebaseio.com/"
 
     @Provides
     @Singleton
