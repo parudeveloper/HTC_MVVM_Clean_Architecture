@@ -1,10 +1,12 @@
 package com.htcmvvmcleanarchitecture.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class ProductDetailsDto(
-    val description: String,
-    val id: Int,
-    val imageUrl: String,
-    val price: String,
-    val summary: String,
-    val title: String
+    @SerializedName("description") val description: String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("imageUrl") val imageUrl: String,
+    @SerializedName("price") val price: String,
+    @SerializedName("summary") val summary: String,
+    @SerializedName("title") val title: String
 )

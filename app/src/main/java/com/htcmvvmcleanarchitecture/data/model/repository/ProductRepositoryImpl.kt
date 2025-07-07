@@ -13,14 +13,14 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
-    private val api: ProductApi
+    private val productApi: ProductApi
 ) : ProductRepository {
 
     override fun getAllProducts(): Flow<Resource<List<ProductItem>>> = flow {
         emit(Resource.Loading())
 
         try {
-            val response = api.getAllProducts()
+            val response = productApi.getAllProducts()
             val domainData = response.map { it.toDomain() }
             emit(Resource.Success(domainData))
         } catch (e: Exception) {
@@ -32,12 +32,11 @@ class ProductRepositoryImpl @Inject constructor(
     override fun getProductById(id: Int): Flow<Resource<ProductDetails>> = flow {
         emit(Resource.Loading())
         try {
-            val response = api.getProductById(id)
+            val response = productApi.getProductById(id)
             emit(Resource.Success(response.toDomain()))
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "Error fetching product"))
         }
     }.flowOn(Dispatchers.IO)
-
 
 }
